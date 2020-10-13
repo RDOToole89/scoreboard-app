@@ -23,6 +23,43 @@ function ScoreBoard() {
     { id: 4, name: "Lisa", score: 0 },
   ]);
 
+  const incrementScore = (id) => {
+    console.log("score increment fired");
+    const newPlayersArray = players.map((player) => {
+      // decide whether this player's score needs to be incremented
+      if (player.id === id) {
+        // and if so, create a new player object,
+        return {
+          // but first copying over the player object's data
+
+          ...player,
+          // and then overriding the score property to be incremented
+          score: player.score + 1,
+        };
+      } else {
+        // else, just keep them
+        return player;
+      }
+    });
+    setPlayer(newPlayersArray);
+  };
+
+  const resetScore = (id) => {
+    console.log("reset score fired");
+    const newPlayersArray = players.map((player) => {
+      console.log("WHAT IS PLAYER:", player);
+      if (player.id === id) {
+        return {
+          ...player,
+          score: player.score - player.score,
+        };
+      } else {
+        return player;
+      }
+    });
+    setPlayer(newPlayersArray);
+  };
+
   // Sorting useState the initial state is "score"
   const [sortBy, setSortBy] = useState("score");
 
@@ -44,7 +81,16 @@ function ScoreBoard() {
 
   // Map players to the scoreboard based on the changeSort variable
   const playerMap = changeSort.map((player) => {
-    return <Player key={player.name} name={player.name} score={player.score} />;
+    return (
+      <Player
+        key={player.id}
+        id={player.id}
+        name={player.name}
+        score={player.score}
+        incrementScore={incrementScore}
+        resetScore={resetScore}
+      />
+    );
   });
 
   return (
