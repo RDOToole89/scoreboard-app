@@ -1,9 +1,14 @@
 import React from "react";
 
-function Player({ name }) {
+function Player({ name, score }) {
   return (
     <li className="Player">
-      <p>{name}</p>
+      <p>
+        {name}
+        <span> (score: {score})</span>
+      </p>
     </li>
   );
 }
+
+export default Player;

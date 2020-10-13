@@ -1,11 +1,15 @@
 import React from "react";
 import Title from "./components/Title/Title";
+import Scoreboard from "./components/Scoreboard/Scoreboard";
+import AddPlayerForm from "./components/AddPlayerForm/AddPlayerForm";
 
 function App() {
   return (
-    <div>
+    <main>
       <Title content="ScoreBoard App" />
-    </div>
+      <Scoreboard />
+      <AddPlayerForm />
+    </main>
   );
 }
 
