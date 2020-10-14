@@ -8,7 +8,6 @@ function App() {
     <main>
       <Title content="ScoreBoard App" />
       <Scoreboard />
-      <AddPlayerForm />
     </main>
   );
 }

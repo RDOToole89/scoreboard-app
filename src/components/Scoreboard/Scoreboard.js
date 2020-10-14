@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Player from "../Player/Player";
+import AddPlayerForm from "../AddPlayerForm/AddPlayerForm";
 
 // Sorting functions
 
@@ -23,6 +24,7 @@ function ScoreBoard() {
     { id: 4, name: "Lisa", score: 0 },
   ]);
 
+  // Increment score by ID
   const incrementScore = (id) => {
     console.log("score increment fired");
     const newPlayersArray = players.map((player) => {
@@ -44,20 +46,36 @@ function ScoreBoard() {
     setPlayer(newPlayersArray);
   };
 
-  const resetScore = (id) => {
-    console.log("reset score fired");
-    const newPlayersArray = players.map((player) => {
-      console.log("WHAT IS PLAYER:", player);
-      if (player.id === id) {
-        return {
-          ...player,
-          score: player.score - player.score,
-        };
-      } else {
-        return player;
-      }
+  // Reset all player scores
+  const resetScore = () => {
+    console.log(players);
+    console.log("reset button fired");
+    const resetPlayerScore = players.map((player) => {
+      console.log("What is player.score", player.score);
+      const resetPlayerObject = {
+        id: player.id,
+        name: player.name,
+        score: 0,
+      };
+      return resetPlayerObject;
+      // CODE WITH SPREAD OPERATOR
+      // return {
+      //   ...player,
+      //   score: (player.score = 0),
+      // };
     });
-    setPlayer(newPlayersArray);
+    console.log(resetPlayerScore);
+    setPlayer(resetPlayerScore);
+  };
+
+  const randomScore = () => {
+    const randomPlayerScore = players.map((player) => {
+      return {
+        ...player,
+        score: (player.score = Math.floor(Math.random() * 101)),
+      };
+    });
+    setPlayer(randomPlayerScore);
   };
 
   // Sorting useState the initial state is "score"
@@ -79,6 +97,18 @@ function ScoreBoard() {
   // changeSort holds the value of the initial player state sorted by the selected useState
   const changeSort = sortBy === "score" ? playersSortedByScore : playersSortedByName;
 
+  const addPlayer = (name) => {
+    console.log("Lets add a new player with the name", name);
+    console.log(players.length);
+    const playerObject = {
+      id: players.length + 1,
+      name: name,
+      score: 0,
+    };
+    const updatedPlayer = [...players, playerObject];
+    setPlayer(updatedPlayer);
+  };
+
   // Map players to the scoreboard based on the changeSort variable
   const playerMap = changeSort.map((player) => {
     return (
@@ -88,7 +118,6 @@ function ScoreBoard() {
         name={player.name}
         score={player.score}
         incrementScore={incrementScore}
-        resetScore={resetScore}
       />
     );
   });
@@ -99,8 +128,11 @@ function ScoreBoard() {
         <option value="score">Sort by score</option>
         <option value="name">Sort by name</option>
       </select>
+      <button onClick={resetScore}>Reset</button>
+      <button onClick={randomScore}>Randomize</button>
       <p>Player's Scores:</p>
       <ul>{playerMap}</ul>
+      <AddPlayerForm addPlayer={addPlayer} />
     </div>
   );
 }
